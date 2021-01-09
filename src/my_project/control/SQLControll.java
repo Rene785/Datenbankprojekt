@@ -2,12 +2,14 @@ package my_project.control;
 
 import KAGO_framework.control.DatabaseController;
 import KAGO_framework.model.abitur.datenbanken.mysql.QueryResult;
+import my_project.model.Person;
 
 public class SQLControll {
     //Attribute
 
     //Referenzen
-    public DatabaseController dbController;
+    private DatabaseController dbController;
+    private Person person;
 
     public SQLControll(){
         dbController = new DatabaseController();
@@ -198,7 +200,30 @@ public class SQLControll {
     }
 
     public void createNewEntity(){
-
+        processSQL("INSERT INTO RG_Personalausweis " +
+                ""+person.getPerso_id()+
+                ",'"+person.getVorname()+
+                "','"+person.getNachname()+
+                "','"+person.getStaatsangehoerigkeit()+
+                "','"+person.getPerso_gueltig()+
+                "',"+person.getReisepass_id()+
+                ","+person.getFuehrerschein_id());
+        processSQL("INSERT INTO RG_Reisepass " +
+                ""+person.getReisepass_id()+
+                ",'"+person.getVorname()+
+                "','"+person.getNachname()+
+                "','"+person.getStaatsangehoerigkeit()+
+                "','"+person.getReisepass_gueltig()+
+                "',"+person.getPerso_id()+
+                ","+person.getFuehrerschein_id());
+        processSQL("INSERT INTO RG_Fuehrerschein " +
+                ""+person.getFuehrerschein_id()+
+                ",'"+person.getVorname()+
+                "','"+person.getNachname()+
+                "','"+person.getStaatsangehoerigkeit()+
+                "','"+person.getReisepass_gueltig()+
+                "',"+person.getPerso_id()+
+                ","+person.getReisepass_id());
     }
 
 }
