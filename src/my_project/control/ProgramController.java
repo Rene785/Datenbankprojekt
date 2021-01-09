@@ -5,6 +5,8 @@ import KAGO_framework.control.ViewController;
 
 import java.awt.event.MouseEvent;
 
+import static java.lang.Math.random;
+
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
  * mit jeder Frame im laufenden Programm aufgerufen.
@@ -78,5 +80,29 @@ public class ProgramController {
         }
     }
 
+    public void erstelleNeuePerson(){
+        double scenario = Math.random()*100;
+        boolean correct = false;
+        boolean notCorrect = false;
+        if(scenario > 50){
+            correct = true;
+        }else{
+            notCorrect = true;
+        }
+        if(correct){
+            sqlControll.createNewEntity();
+        }
+    }
+
+    public String zweiDimArrayinString(String[][] s){
+        String result = "";
+        for(int i = 0; i<s.length;i++){
+            for(int j = 0;j<s[i].length;j++){
+                result += s[i][j];
+            }
+            result += "\n";
+        }
+        return result;
+    }
 
 }
