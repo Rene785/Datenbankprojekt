@@ -233,8 +233,8 @@ public class SQLControll {
                 ","+person.getReisepass_id()+
                 ");"));
         System.out.println(processSQL("UPDATE RG_Personalausweis SET Reisepass_ID = "+person.getReisepass_id()+" WHERE 'RG_Reisepass.ID' = "+person.getReisepass_id()+";"));
-        System.out.println(processSQL("UPDATE RG_Personalausweis SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE RG_Fuehrerschein.ID = "+person.getFuehrerschein_id()+";"));
-        System.out.println(processSQL("UPDATE RG_Reisepass SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE RG_Fuehrerschein.ID = "+person.getFuehrerschein_id()+";"));
+        System.out.println(processSQL("UPDATE RG_Personalausweis SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE 'RG_Fuehrerschein.ID' = "+person.getFuehrerschein_id()+";"));
+        System.out.println(processSQL("UPDATE RG_Reisepass SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE 'RG_Fuehrerschein.ID' = "+person.getFuehrerschein_id()+";"));
     }
 
 }

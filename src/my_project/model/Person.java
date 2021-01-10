@@ -5,6 +5,7 @@ public class Person {
     private int perso_id;
     private int reisepass_id;
     private int fuehrerschein_id;
+    private int punkte;
     private boolean gueltig;
     private String vorname;
     private String nachname;
@@ -12,17 +13,13 @@ public class Person {
     private String perso_gueltig;
     private String reisepass_gueltig;
     private String fuehrerschein_gueltig;
+    private String mistakeReason;
 
     public Person(){
+        punkte = 0;
         perso_id = 1;
         reisepass_id = 1;
         fuehrerschein_id = 1;
-        zufallsVorname();
-        zufallsNachname();
-        zufallsStaatsangehoerigkeit();
-        gueltig = true;
-        zufallsGueltigkeit();
-
     }
 
     public void zufallsVorname(){
@@ -99,50 +96,77 @@ public class Person {
         }
     }
 
-    public void zufallsGueltigkeit() {
-        System.out.println("zufallsGueltigkeit wird aufgerufen");
+    public void zufallFehler() {
         if (gueltig) {
-            double p = (int) (Math.random() * 100);
-            double r = (int) (Math.random() * 100);
-            double f = (int) (Math.random() * 100);
-            System.out.println(p);
-            System.out.println(r);
-            System.out.println(f);
-            if (p < 20) {
-                perso_gueltig = "2021-05-06";
-            } else if (p > 20 && p < 40) {
-                perso_gueltig = "2022-08-20";
-            } else if (p > 40 && p < 60) {
-                perso_gueltig = "2023-01-03";
-            } else if (p > 60 && p < 80) {
-                perso_gueltig = "2024-04-22";
-            } else if (p > 80 && p < 100) {
-                perso_gueltig = "2025-12-28";
+            rechneGueltigeZufallsDaten();
+        }else if(!gueltig){
+            double mistake = (int) (Math.random()*100);
+            if(mistake <50){
+                mistakeReason = "Mindestens ein Dokument ist nicht gültig";
+                double p = (int) (Math.random() * 100);
+                double r = (int) (Math.random() * 100);
+                double f = (int) (Math.random() * 100);
+                if(p<50){
+                    perso_gueltig = "2019-05-06";
+                }else if(p>=50 && p<100){
+                    perso_gueltig = "2020-12-24";
+                }
+                if(r<50){
+                    reisepass_gueltig = "2022-07-18";
+                }else if(r>=50 && r<100){
+                    reisepass_gueltig = "2023-01-01";
+                }
+                if(f<50){
+                    fuehrerschein_gueltig = "2024-10-13";
+                }else if(f>=50 && f<100){
+                    fuehrerschein_gueltig = "2018-11-16";
+                }
+            }else if(mistake >=50 && mistake<100){
+                mistakeReason = "Kriterien wurden nicht erfüllt";
+                rechneGueltigeZufallsDaten();
             }
-            if (r < 20) {
-                reisepass_gueltig = "2021-05-06";
-            } else if (r > 20 && r < 40) {
-                reisepass_gueltig = "2022-08-20";
-            } else if (r > 40 && r < 60) {
-                reisepass_gueltig = "2023-01-03";
-            } else if (r > 60 && r < 80) {
-                reisepass_gueltig = "2024-04-22";
-            } else if (r > 80 && r < 100) {
-                reisepass_gueltig = "2025-12-28";
-            }
-            if (f < 20) {
-                fuehrerschein_gueltig = "2021-05-06";
-            } else if (f > 20 && f < 40) {
-                fuehrerschein_gueltig = "2022-08-20";
-            } else if (f > 40 && f < 60) {
-                fuehrerschein_gueltig = "2023-01-03";
-            } else if (f > 60 && f < 80) {
-                fuehrerschein_gueltig = "2024-04-22";
-            } else if (f > 80 && f < 100) {
-                fuehrerschein_gueltig = "2025-12-28";
-            }
+            System.out.println(mistakeReason);
         }
 
+    }
+
+    public void rechneGueltigeZufallsDaten(){
+        double p = (int) (Math.random() * 100);
+        double r = (int) (Math.random() * 100);
+        double f = (int) (Math.random() * 100);
+        if (p < 20) {
+            perso_gueltig = "2021-05-06";
+        } else if (p > 20 && p < 40) {
+            perso_gueltig = "2022-08-20";
+        } else if (p > 40 && p < 60) {
+            perso_gueltig = "2023-01-03";
+        } else if (p > 60 && p < 80) {
+            perso_gueltig = "2024-04-22";
+        } else if (p > 80 && p < 100) {
+            perso_gueltig = "2025-12-28";
+        }
+        if (r < 20) {
+            reisepass_gueltig = "2021-05-06";
+        } else if (r > 20 && r < 40) {
+            reisepass_gueltig = "2022-08-20";
+        } else if (r > 40 && r < 60) {
+            reisepass_gueltig = "2023-01-03";
+        } else if (r > 60 && r < 80) {
+            reisepass_gueltig = "2024-04-22";
+        } else if (r > 80 && r < 100) {
+            reisepass_gueltig = "2025-12-28";
+        }
+        if (f < 20) {
+            fuehrerschein_gueltig = "2021-05-06";
+        } else if (f > 20 && f < 40) {
+            fuehrerschein_gueltig = "2022-08-20";
+        } else if (f > 40 && f < 60) {
+            fuehrerschein_gueltig = "2023-01-03";
+        } else if (f > 60 && f < 80) {
+            fuehrerschein_gueltig = "2024-04-22";
+        } else if (f > 80 && f < 100) {
+            fuehrerschein_gueltig = "2025-12-28";
+        }
     }
 
     public void setzeGueltigkeit(boolean g){
@@ -207,5 +231,13 @@ public class Person {
 
     public void setFuehrerschein_gueltig(String fuehrerschein_gueltig) {
         this.fuehrerschein_gueltig = fuehrerschein_gueltig;
+    }
+
+    public int getPunkte(){
+        return punkte;
+    }
+
+    public void setPunkte(int s){
+        punkte = punkte +s;
     }
 }

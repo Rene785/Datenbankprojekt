@@ -14,7 +14,6 @@ public class Playscreen extends GraphicalObject {
     private BufferedImage fuehrerschein;
     private Person person;
     private double timer;
-    private boolean timerOver;
     private SceneControll sC;
 
     public Playscreen(Person person,SceneControll sC){
@@ -23,7 +22,6 @@ public class Playscreen extends GraphicalObject {
         fuehrerschein = createImage("assets/Fuehrerschein.jpg");
         this.person = person;
         timer = 60;
-        timerOver = false;
         this.sC = sC;
     }
 
@@ -36,8 +34,25 @@ public class Playscreen extends GraphicalObject {
         drawPersonOnIDCard(drawTool);
         drawPersonOnDriverLicense(drawTool);
         drawPersonOnReisepass(drawTool);
+        drawButtons(drawTool);
+        drawTool.setCurrentColor(0,0,0,255);
         drawTool.formatText("Arial",1,25);
         drawTool.drawText(450,50,"Timer: "+Math.round(timer));
+        drawTool.drawText(450,150,"Punkte:"+person.getPunkte());
+    }
+
+    public void drawButtons(DrawTool drawTool){
+        drawTool.setCurrentColor(146,146,146,255);
+        drawTool.drawFilledRectangle(300,700,300,150);
+        drawTool.drawFilledRectangle(900,700,300,150);
+        drawTool.setCurrentColor(0,0,0,255);
+        drawTool.drawRectangle(300,700,300,150);
+        drawTool.drawRectangle(900,700,300,150);
+        drawTool.setCurrentColor(255,0,0,255);
+        drawTool.formatText("Arial",1,28);
+        drawTool.drawText(350,780,"Zurückweisen");
+        drawTool.setCurrentColor(0,255,0,255);
+        drawTool.drawText(970,780,"Annehmen");
     }
 
     public void drawPersonOnIDCard(DrawTool drawTool){
@@ -86,5 +101,6 @@ public class Playscreen extends GraphicalObject {
             sC.setScene(4);
         }
     }
+
 
 }

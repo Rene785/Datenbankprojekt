@@ -1,12 +1,9 @@
 package my_project.control;
 
-import KAGO_framework.control.DatabaseController;
 import KAGO_framework.control.ViewController;
 import my_project.model.Person;
 
 import java.awt.event.MouseEvent;
-
-import static java.lang.Math.random;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -34,14 +31,13 @@ public class ProgramController {
         person = new Person();
         sqlControll = new SQLControll(person);
         sceneControll = new SceneControll(viewController,person);
-
     }
 
     /**
      * Diese Methode wird genau ein mal nach Programmstart aufgerufen. Achtung: funktioniert nicht im Szenario-Modus
      */
     public void startProgram() {
-
+        erstelleNeuePerson();
     }
 
     /**
@@ -77,7 +73,22 @@ public class ProgramController {
             }
         }
         if(sceneControll.getScene() == 3){
-
+            if(e.getX()>300 && e.getX()<600 && e.getY()>700 && e.getY()<850){
+                if(!person.getGueltig()){
+                    person.setPunkte(3);
+                }else if(person.getGueltig()){
+                    person.setPunkte(-2);
+                }
+                erstelleNeuePerson();
+            }
+            if(e.getX()>900 && e.getX()<1200 && e.getY()>700 && e.getY()<850){
+                if(person.getGueltig()){
+                    person.setPunkte(3);
+                }else if(!person.getGueltig()){
+                    person.setPunkte(-2);
+                }
+                erstelleNeuePerson();
+            }
         }
         if(sceneControll.getScene() == 4){
 
@@ -92,10 +103,23 @@ public class ProgramController {
             person.setzeGueltigkeit(false);
         }
         if(person.getGueltig()){
-            person.zufallsGueltigkeit();
+            person.addOneOnPersoID();
+            person.addOneOnFuehrerscheinID();
+            person.addOneOnReisepassID();
+            person.zufallsVorname();
+            person.zufallsNachname();
+            person.zufallsStaatsangehoerigkeit();
+            person.rechneGueltigeZufallsDaten();
             sqlControll.createNewEntity();
-        }else{
-
+        }else if(!person.getGueltig()){
+            person.addOneOnPersoID();
+            person.addOneOnFuehrerscheinID();
+            person.addOneOnReisepassID();
+            person.zufallsVorname();
+            person.zufallsNachname();
+            person.zufallsStaatsangehoerigkeit();
+            person.zufallFehler();
+            sqlControll.createNewEntity();
         }
     }
 
