@@ -204,7 +204,7 @@ public class SQLControll {
  */
 
     public void createNewEntity(){
-        System.out.println(processSQL("INSERT INTO RG_Personalausweis " +
+        processSQL("INSERT INTO RG_Personalausweis " +
                 "VALUES " +
                 "("+person.getPerso_id()+
                 ",'"+person.getVorname()+
@@ -212,8 +212,8 @@ public class SQLControll {
                 "','"+person.getStaatsangehoerigkeit()+
                 "','"+person.getPerso_gueltig()+
                 "',null"+
-                ",null);"));
-        System.out.println(processSQL("INSERT INTO RG_Reisepass " +
+                ",null);");
+        processSQL("INSERT INTO RG_Reisepass " +
                 "VALUES " +
                 "("+person.getReisepass_id()+
                 ",'"+person.getVorname()+
@@ -221,8 +221,8 @@ public class SQLControll {
                 "','"+person.getStaatsangehoerigkeit()+
                 "','"+person.getReisepass_gueltig()+
                 "',"+person.getPerso_id()+
-                ",null);"));
-        System.out.println(processSQL("INSERT INTO RG_Fuehrerschein " +
+                ",null);");
+        processSQL("INSERT INTO RG_Fuehrerschein " +
                 "VALUES " +
                 "("+person.getFuehrerschein_id()+
                 ",'"+person.getVorname()+
@@ -231,10 +231,10 @@ public class SQLControll {
                 "','"+person.getReisepass_gueltig()+
                 "',"+person.getPerso_id()+
                 ","+person.getReisepass_id()+
-                ");"));
-        System.out.println(processSQL("UPDATE RG_Personalausweis SET Reisepass_ID = "+person.getReisepass_id()+" WHERE 'RG_Reisepass.ID' = "+person.getReisepass_id()+";"));
-        System.out.println(processSQL("UPDATE RG_Personalausweis SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE 'RG_Fuehrerschein.ID' = "+person.getFuehrerschein_id()+";"));
-        System.out.println(processSQL("UPDATE RG_Reisepass SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE 'RG_Fuehrerschein.ID' = "+person.getFuehrerschein_id()+";"));
+                ");");
+        processSQL("UPDATE RG_Personalausweis SET Reisepass_ID = "+person.getReisepass_id()+" WHERE ID = "+person.getReisepass_id()+";");
+        processSQL("UPDATE RG_Personalausweis SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE ID = "+person.getFuehrerschein_id()+";");
+        processSQL("UPDATE RG_Reisepass SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE ID = "+person.getFuehrerschein_id()+";");
     }
 
 }

@@ -1,8 +1,10 @@
-package my_project.model;
+package my_project.view;
 
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
+import my_project.control.ProgramController;
 import my_project.control.SceneControll;
+import my_project.model.Person;
 
 import java.awt.image.BufferedImage;
 
@@ -12,47 +14,55 @@ public class Playscreen extends GraphicalObject {
     private BufferedImage idcard;
     private BufferedImage reisepass;
     private BufferedImage fuehrerschein;
+    private BufferedImage kriterien;
+    private BufferedImage background;
     private Person person;
-    private double timer;
+    private ProgramController pC;
     private SceneControll sC;
 
-    public Playscreen(Person person,SceneControll sC){
+    public Playscreen(Person person,SceneControll sC,ProgramController pC){
+        background = createImage("assets/Playscreen.jpg");
         idcard = createImage("assets/Personalausweis.png");
         reisepass = createImage("assets/Reisepass.jpg");
         fuehrerschein = createImage("assets/Fuehrerschein.jpg");
+        kriterien = createImage("assets/Kriterien_blatt.jpg");
         this.person = person;
-        timer = 60;
         this.sC = sC;
+        this.pC = pC;
     }
 
     @Override
     public void draw(DrawTool drawTool) {
         super.draw(drawTool);
+        drawTool.drawImage(background,0,0);
         drawTool.drawImage(idcard,1200,0);
         drawTool.drawImage(reisepass,50,0);
         drawTool.drawImage(fuehrerschein,600,0);
+        drawTool.drawImage(kriterien,1200,450);
         drawPersonOnIDCard(drawTool);
         drawPersonOnDriverLicense(drawTool);
         drawPersonOnReisepass(drawTool);
         drawButtons(drawTool);
+        drawKriterien(drawTool);
         drawTool.setCurrentColor(0,0,0,255);
         drawTool.formatText("Arial",1,25);
-        drawTool.drawText(450,50,"Timer: "+Math.round(timer));
+        drawTool.drawText(450,50,"Timer: "+Math.round(pC.getTimer()));
         drawTool.drawText(450,150,"Punkte:"+person.getPunkte());
+
     }
 
     public void drawButtons(DrawTool drawTool){
         drawTool.setCurrentColor(146,146,146,255);
-        drawTool.drawFilledRectangle(300,700,300,150);
-        drawTool.drawFilledRectangle(900,700,300,150);
+        drawTool.drawFilledRectangle(100,700,300,150);
+        drawTool.drawFilledRectangle(500,700,300,150);
         drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawRectangle(300,700,300,150);
-        drawTool.drawRectangle(900,700,300,150);
+        drawTool.drawRectangle(100,700,300,150);
+        drawTool.drawRectangle(500,700,300,150);
         drawTool.setCurrentColor(255,0,0,255);
         drawTool.formatText("Arial",1,28);
-        drawTool.drawText(350,780,"Zurückweisen");
+        drawTool.drawText(150,780,"Zurückweisen");
         drawTool.setCurrentColor(0,255,0,255);
-        drawTool.drawText(970,780,"Annehmen");
+        drawTool.drawText(570,780,"Annehmen");
     }
 
     public void drawPersonOnIDCard(DrawTool drawTool){
@@ -93,13 +103,23 @@ public class Playscreen extends GraphicalObject {
         }
     }
 
+    public void drawKriterien(DrawTool drawTool){
+        try{
+            drawTool.setCurrentColor(0,0,0,255);
+            drawTool.formatText("Arial",1,14);
+            drawTool.drawText(1220,580,"-Alle Dokumente müssen Gültig sein");
+            drawTool.drawText(1220,630,"-Alle Dokumente müssen vorhanden sein");
+            if(person.getKriterium() != null) {
+                drawTool.drawText(1220, 680, "-" + person.getKriterium());
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
     @Override
     public void update(double dt) {
         super.update(dt);
-        timer -= 1*dt;
-        if(timer<=0){
-            sC.setScene(4);
-        }
     }
 
 

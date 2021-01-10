@@ -14,12 +14,14 @@ public class Person {
     private String reisepass_gueltig;
     private String fuehrerschein_gueltig;
     private String mistakeReason;
+    private String kriterium;
 
     public Person(){
         punkte = 0;
-        perso_id = 1;
-        reisepass_id = 1;
-        fuehrerschein_id = 1;
+        perso_id = 0;
+        reisepass_id = 0;
+        fuehrerschein_id = 0;
+        mistakeReason = "";
     }
 
     public void zufallsVorname(){
@@ -124,11 +126,22 @@ public class Person {
             }else if(mistake >=50 && mistake<100){
                 mistakeReason = "Kriterien wurden nicht erfüllt";
                 rechneGueltigeZufallsDaten();
+                getCriteria();
             }
             System.out.println(mistakeReason);
         }
 
     }
+    public void getCriteria(){
+        double i = (int) (Math.random()*100);
+        if(i<50){
+            kriterium = "Anträge aus "+staatsangehoerigkeit+" werden abgelehnt";
+        }else if(i>=50){
+            kriterium = "Anträge der Familie "+nachname+" werden abgelehnt";
+        }
+    }
+
+
 
     public void rechneGueltigeZufallsDaten(){
         double p = (int) (Math.random() * 100);
@@ -239,5 +252,9 @@ public class Person {
 
     public void setPunkte(int s){
         punkte = punkte +s;
+    }
+
+    public String getKriterium() {
+        return kriterium;
     }
 }

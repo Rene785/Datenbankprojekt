@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 public class ProgramController {
 
     //Attribute
-
+    private double timer;
     // Referenzen
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private SQLControll sqlControll;
@@ -30,7 +30,8 @@ public class ProgramController {
         this.viewController = viewController;
         person = new Person();
         sqlControll = new SQLControll(person);
-        sceneControll = new SceneControll(viewController,person);
+        sceneControll = new SceneControll(viewController,person,this);
+        timer = 60;
     }
 
     /**
@@ -47,7 +48,12 @@ public class ProgramController {
      * @param dt Zeit seit letzter Frame
      */
     public void updateProgram(double dt){
-
+        if(sceneControll.getScene() == 3) {
+            timer -= dt;
+            if (timer <= 0) {
+                sceneControll.setScene(4);
+            }
+        }
     }
 
 
@@ -73,7 +79,7 @@ public class ProgramController {
             }
         }
         if(sceneControll.getScene() == 3){
-            if(e.getX()>300 && e.getX()<600 && e.getY()>700 && e.getY()<850){
+            if(e.getX()>100 && e.getX()<400 && e.getY()>700 && e.getY()<850){
                 if(!person.getGueltig()){
                     person.setPunkte(3);
                 }else if(person.getGueltig()){
@@ -81,7 +87,7 @@ public class ProgramController {
                 }
                 erstelleNeuePerson();
             }
-            if(e.getX()>900 && e.getX()<1200 && e.getY()>700 && e.getY()<850){
+            if(e.getX()>500 && e.getX()<800 && e.getY()>700 && e.getY()<850){
                 if(person.getGueltig()){
                     person.setPunkte(3);
                 }else if(!person.getGueltig()){
@@ -90,9 +96,7 @@ public class ProgramController {
                 erstelleNeuePerson();
             }
         }
-        if(sceneControll.getScene() == 4){
 
-        }
     }
 
     public void erstelleNeuePerson(){
@@ -132,6 +136,10 @@ public class ProgramController {
             result += "\n";
         }
         return result;
+    }
+
+    public double getTimer(){
+        return timer;
     }
 
 }
