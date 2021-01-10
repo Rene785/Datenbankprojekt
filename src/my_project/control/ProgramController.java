@@ -2,6 +2,7 @@ package my_project.control;
 
 import KAGO_framework.control.DatabaseController;
 import KAGO_framework.control.ViewController;
+import my_project.model.Person;
 
 import java.awt.event.MouseEvent;
 
@@ -19,6 +20,7 @@ public class ProgramController {
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private SQLControll sqlControll;
     private SceneControll sceneControll;
+    private Person person;
 
     /**
      * Konstruktor
@@ -29,8 +31,10 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        sqlControll = new SQLControll();
-        sceneControll = new SceneControll(viewController);
+        person = new Person();
+        sqlControll = new SQLControll(person);
+        sceneControll = new SceneControll(viewController,person);
+
     }
 
     /**
@@ -81,16 +85,17 @@ public class ProgramController {
     }
 
     public void erstelleNeuePerson(){
-        double scenario = Math.random()*100;
-        boolean correct = false;
-        boolean notCorrect = false;
+        int scenario = (int) (Math.random()*100);
         if(scenario > 50){
-            correct = true;
+            person.setzeGueltigkeit(true);
         }else{
-            notCorrect = true;
+            person.setzeGueltigkeit(false);
         }
-        if(correct){
+        if(person.getGueltig()){
+            person.zufallsGueltigkeit();
             sqlControll.createNewEntity();
+        }else{
+
         }
     }
 

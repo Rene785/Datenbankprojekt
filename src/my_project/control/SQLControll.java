@@ -11,11 +11,13 @@ public class SQLControll {
     private DatabaseController dbController;
     private Person person;
 
-    public SQLControll(){
+    public SQLControll(Person person){
+        this.person = person;
         dbController = new DatabaseController();
         dbController.connect();
         loescheTabelle();
         createTables();
+        createNewEntity();
     }
 
     private String formatSQLOutput(String[] attributes, String[][] result){
@@ -86,17 +88,17 @@ public class SQLControll {
         System.out.println("Vorhandene Tables: "+ processSQL("SHOW TABLES LIKE 'RG_%'"));
         if(dbController.isConnected()){
             if(dbController.getCurrentQueryResult() != null && dbController.getCurrentQueryResult().getData().length>0) {
-                System.out.println(processSQL("SET FOREIGN_KEY_CHECKS=0;"));
-                System.out.println(processSQL("DROP TABLE RG_Fuehrerschein"));
-                System.out.println(processSQL("DROP TABLE RG_Personalausweis"));
-                System.out.println(processSQL("DROP TABLE RG_Reisepass"));
-                System.out.println(processSQL("SET FOREIGN_KEY_CHECKS=1;"));
+                processSQL("SET FOREIGN_KEY_CHECKS=0;");
+                processSQL("DROP TABLE RG_Fuehrerschein");
+                processSQL("DROP TABLE RG_Personalausweis");
+                processSQL("DROP TABLE RG_Reisepass");
+                processSQL("SET FOREIGN_KEY_CHECKS=1;");
             }
         }
     }
 
     public void createTables(){
-        System.out.println(processSQL("CREATE TABLE RG_Personalausweis(" +
+        processSQL("CREATE TABLE RG_Personalausweis(" +
                 "ID INTEGER NOT NULL," +
                 "Vorname VARCHAR(20),"+
                 "Nachname VARCHAR(20)," +
@@ -105,9 +107,9 @@ public class SQLControll {
                 "Reisepass_ID INTEGER," +
                 "Fuehrerschein_ID INTEGER," +
                 "PRIMARY KEY(ID))" +
-                ";"));
+                ";");
         System.out.println("RG_Personalausweis erfolgreich erstellt");
-        System.out.println(processSQL("CREATE TABLE RG_Reisepass(" +
+        processSQL("CREATE TABLE RG_Reisepass(" +
                 "ID INTEGER NOT NULL," +
                 "Vorname VARCHAR(20)," +
                 "Nachname VARCHAR(20)," +
@@ -116,9 +118,9 @@ public class SQLControll {
                 "Personalausweis_ID INTEGER," +
                 "Fuehrerschein_ID INTEGER," +
                 "PRIMARY KEY(ID))" +
-                ";"));
+                ";");
         System.out.println("RG_Reisepass erfolgreich erstellt");
-        System.out.println(processSQL("CREATE TABLE RG_Fuehrerschein(" +
+        processSQL("CREATE TABLE RG_Fuehrerschein(" +
                 "ID INTEGER NOT NULL," +
                 "Vorname VARCHAR(20)," +
                 "Nachname VARCHAR(20)," +
@@ -127,28 +129,28 @@ public class SQLControll {
                 "Personalausweis_ID INTEGER," +
                 "Reisepass_ID INTEGER," +
                 "PRIMARY KEY(ID))" +
-                ";"));
+                ";");
         System.out.println("RG_Fuehrerschein erfolgreich erstellt");
         //Fremdschlüssel
 
-        System.out.println(processSQL("ALTER TABLE RG_Personalausweis " +
+        processSQL("ALTER TABLE RG_Personalausweis " +
                 "ADD CONSTRAINT FOREIGN KEY (Reisepass_ID) REFERENCES RG_Reisepass (ID), " +
                 "ADD CONSTRAINT FOREIGN KEY (Fuehrerschein_ID) REFERENCES RG_Fuehrerschein (ID) " +
-                "; "));
+                "; ");
 
-        System.out.println(processSQL("ALTER TABLE RG_Reisepass " +
+        processSQL("ALTER TABLE RG_Reisepass " +
                 "ADD CONSTRAINT FOREIGN KEY (Personalausweis_ID) REFERENCES RG_Personalausweis (ID), " +
                 "ADD CONSTRAINT FOREIGN KEY (Fuehrerschein_ID) REFERENCES RG_Fuehrerschein (ID) " +
-                ";"));
+                ";");
 
-        System.out.println(processSQL("ALTER TABLE RG_Fuehrerschein " +
+        processSQL("ALTER TABLE RG_Fuehrerschein " +
                 "ADD CONSTRAINT FOREIGN KEY (Personalausweis_ID) REFERENCES RG_Personalausweis (ID), " +
                 "ADD CONSTRAINT FOREIGN KEY (Reisepass_ID) REFERENCES RG_Reisepass (ID) " +
-                ";"));
+                ";");
 
-        createEntities();
+        //createEntities();
     }
-
+/*
     public void createEntities(){
         //Datensätze für RG_Fuehrerschein
         System.out.println(processSQL("INSERT INTO RG_Fuehrerschein " +
@@ -199,31 +201,40 @@ public class SQLControll {
                 ";"));
     }
 
+ */
+
     public void createNewEntity(){
-        processSQL("INSERT INTO RG_Personalausweis " +
-                ""+person.getPerso_id()+
+        System.out.println(processSQL("INSERT INTO RG_Personalausweis " +
+                "VALUES " +
+                "("+person.getPerso_id()+
                 ",'"+person.getVorname()+
                 "','"+person.getNachname()+
                 "','"+person.getStaatsangehoerigkeit()+
                 "','"+person.getPerso_gueltig()+
-                "',"+person.getReisepass_id()+
-                ","+person.getFuehrerschein_id());
-        processSQL("INSERT INTO RG_Reisepass " +
-                ""+person.getReisepass_id()+
+                "',null"+
+                ",null);"));
+        System.out.println(processSQL("INSERT INTO RG_Reisepass " +
+                "VALUES " +
+                "("+person.getReisepass_id()+
                 ",'"+person.getVorname()+
                 "','"+person.getNachname()+
                 "','"+person.getStaatsangehoerigkeit()+
                 "','"+person.getReisepass_gueltig()+
                 "',"+person.getPerso_id()+
-                ","+person.getFuehrerschein_id());
-        processSQL("INSERT INTO RG_Fuehrerschein " +
-                ""+person.getFuehrerschein_id()+
+                ",null);"));
+        System.out.println(processSQL("INSERT INTO RG_Fuehrerschein " +
+                "VALUES " +
+                "("+person.getFuehrerschein_id()+
                 ",'"+person.getVorname()+
                 "','"+person.getNachname()+
                 "','"+person.getStaatsangehoerigkeit()+
                 "','"+person.getReisepass_gueltig()+
                 "',"+person.getPerso_id()+
-                ","+person.getReisepass_id());
+                ","+person.getReisepass_id()+
+                ");"));
+        System.out.println(processSQL("UPDATE RG_Personalausweis SET Reisepass_ID = "+person.getReisepass_id()+" WHERE 'RG_Reisepass.ID' = "+person.getReisepass_id()+";"));
+        System.out.println(processSQL("UPDATE RG_Personalausweis SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE RG_Fuehrerschein.ID = "+person.getFuehrerschein_id()+";"));
+        System.out.println(processSQL("UPDATE RG_Reisepass SET Fuehrerschein_ID = "+person.getFuehrerschein_id()+" WHERE RG_Fuehrerschein.ID = "+person.getFuehrerschein_id()+";"));
     }
 
 }

@@ -5,6 +5,7 @@ public class Person {
     private int perso_id;
     private int reisepass_id;
     private int fuehrerschein_id;
+    private boolean gueltig;
     private String vorname;
     private String nachname;
     private String staatsangehoerigkeit;
@@ -19,6 +20,9 @@ public class Person {
         zufallsVorname();
         zufallsNachname();
         zufallsStaatsangehoerigkeit();
+        gueltig = true;
+        zufallsGueltigkeit();
+
     }
 
     public void zufallsVorname(){
@@ -81,7 +85,7 @@ public class Person {
         }else if(i>=30&&i<40){
             staatsangehoerigkeit = "Frankreich";
         }else if(i>=40&&i<50){
-            staatsangehoerigkeit = "Großbritannien";
+            staatsangehoerigkeit = "Spanien";
         }else if(i>=50&&i<60){
             staatsangehoerigkeit = "Ghana";
         }else if(i>=60&&i<70){
@@ -93,6 +97,59 @@ public class Person {
         }else if(i>=90 && i<=100){
             staatsangehoerigkeit = "Südafrika";
         }
+    }
+
+    public void zufallsGueltigkeit() {
+        System.out.println("zufallsGueltigkeit wird aufgerufen");
+        if (gueltig) {
+            double p = (int) (Math.random() * 100);
+            double r = (int) (Math.random() * 100);
+            double f = (int) (Math.random() * 100);
+            System.out.println(p);
+            System.out.println(r);
+            System.out.println(f);
+            if (p < 20) {
+                perso_gueltig = "2021-05-06";
+            } else if (p > 20 && p < 40) {
+                perso_gueltig = "2022-08-20";
+            } else if (p > 40 && p < 60) {
+                perso_gueltig = "2023-01-03";
+            } else if (p > 60 && p < 80) {
+                perso_gueltig = "2024-04-22";
+            } else if (p > 80 && p < 100) {
+                perso_gueltig = "2025-12-28";
+            }
+            if (r < 20) {
+                reisepass_gueltig = "2021-05-06";
+            } else if (r > 20 && r < 40) {
+                reisepass_gueltig = "2022-08-20";
+            } else if (r > 40 && r < 60) {
+                reisepass_gueltig = "2023-01-03";
+            } else if (r > 60 && r < 80) {
+                reisepass_gueltig = "2024-04-22";
+            } else if (r > 80 && r < 100) {
+                reisepass_gueltig = "2025-12-28";
+            }
+            if (f < 20) {
+                fuehrerschein_gueltig = "2021-05-06";
+            } else if (f > 20 && f < 40) {
+                fuehrerschein_gueltig = "2022-08-20";
+            } else if (f > 40 && f < 60) {
+                fuehrerschein_gueltig = "2023-01-03";
+            } else if (f > 60 && f < 80) {
+                fuehrerschein_gueltig = "2024-04-22";
+            } else if (f > 80 && f < 100) {
+                fuehrerschein_gueltig = "2025-12-28";
+            }
+        }
+
+    }
+
+    public void setzeGueltigkeit(boolean g){
+        gueltig = g;
+    }
+    public boolean getGueltig(){
+        return gueltig;
     }
 
     public String getVorname() {

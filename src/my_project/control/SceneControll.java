@@ -1,10 +1,7 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
-import my_project.model.Anleitungsscreen;
-import my_project.model.Endscreen;
-import my_project.model.Playscreen;
-import my_project.model.Startscreen;
+import my_project.model.*;
 
 public class SceneControll {
 
@@ -18,11 +15,11 @@ public class SceneControll {
     private Endscreen endscreen;
     private Anleitungsscreen anleitungsscreen;
 
-    public SceneControll(ViewController viewController){
+    public SceneControll(ViewController viewController, Person person){
         scene = 0;
         this.viewController = viewController;
         startscreen = new Startscreen();
-        playscreen = new Playscreen();
+        playscreen = new Playscreen(person,this);
         endscreen = new Endscreen();
         anleitungsscreen = new Anleitungsscreen();
         setScene(1);
